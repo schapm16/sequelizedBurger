@@ -1,0 +1,80 @@
+<div class="container center-align">
+
+  <img src="/assets/img/burger.jpeg" alt="Picture of burger">
+
+  <div class="row">
+    <div class="col s6">
+      {{#each burgerData}} {{#unless devoured}}
+      <div class="row">
+        <div class="col s8 right-align">
+          <span>{{id}}.   {{burger_name}}</span>
+        </div>
+
+        <div class="col s4 ">
+          <button data-id="{{id}}" class="devour btn" type="button">Devour</button>
+        </div>
+      </div>
+      {{/unless}} {{/each}}
+    </div>
+
+    <div class="col s6">
+      {{#each burgerData}} {{#if devoured}}
+      <div>{{id}}. {{burger_name}}</div>
+      {{/if}} {{/each}}
+    </div>
+  </div>
+
+  <form id="form">
+    <div class="row">
+      <div class="col s6 offset-s3">
+        <input id="newBurger" type="text" placeholder="Enter the name of your burger">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s6 offset-s3">
+        <button id="submit" class="btn" type="button">Submit</button>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+
+<script>
+  /*global $*/
+
+  $(function() {
+
+    $('#submit').click(function() {
+      var newBurger = $('#newBurger').val().trim();
+
+      if (newBurger) {
+        $.ajax({
+          method: 'POST',
+          url: '/',
+          data: { newBurger: newBurger },
+          traditional: true
+        }).done(function() {
+          location.reload();
+        });
+      }
+    });
+
+    $('.devour').click(function() {
+
+      var dataOfClicked = $(this).data('id');
+      console.log(dataOfClicked);
+
+      $.ajax({
+        method: 'PUT',
+        url: '/',
+        data: { updateBurger: dataOfClicked },
+        traditional: true
+      }).done(function() {
+        location.reload();
+      });
+    });
+
+  });
+</script>
