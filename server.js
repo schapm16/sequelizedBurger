@@ -18,11 +18,16 @@ app.use(bodyParser.json());
 app.use('/', require('./controllers/burgers_controller.js'));
 
 //Set handlebars as the view engine
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-//Server Listen
-app.listen(PORT, function() {
+//Store sequelize models object
+var db = require('./models');
+
+//Database Connection and Server Listen
+db.sequelize.sync().then(function() {
+  app.listen(PORT, function() {
     console.log("Listening on PORT " + PORT);
+  });
 });
 
