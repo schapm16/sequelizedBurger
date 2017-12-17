@@ -1,32 +1,32 @@
 var express = require('express');
 var router = express.Router();
 
-var burger = require('../models/burgerSeq.js');
+var db = require('../models');
 
 router.get('/', function(req, res) {
   console.log("GET");
-  burger.viewAll(function(data) {
-  res.render('index', {burgerData: data});  
-  console.log(data);
-  });  
+  db.burgerSeq.findAll().then(function(data) {
+    res.render('index', { burgerData: data });
+    console.log(data[0].dataValues);
+  });
 });
-
 
 router.post('/', function(req, res) {
   console.log("POST");
   console.log("Request Body: " + req.body.newBurger);
-  burger.new(req.body.newBurger, function(data) {
+  db.burgerSeq.create({burger_name: req.body.newBurger}).then(function(data){
     res.status(200).end();
-    console.log(data);
+    console.log(data[0].dataValues);
   });
 });
 
 router.put('/', function(req, res) {
   console.log("PUT");
-  burger.devour(parseInt(req.body.updateBurger), function(data) {
+  db.burgerSeq.update({devoured: true}, {where: { id: parseInt(req.body.updateBurger)}}).then(function(data) {
     res.status(200).end();
-    console.log(data);
+    console.log(data[0].dataValues);
   });
 });
+
 
 module.exports = router;

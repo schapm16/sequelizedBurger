@@ -1,6 +1,6 @@
 USE burgers_db;
 
-INSERT INTO burgers (burger_name, date) VALUES ('bacon cheesburger', NOW());
-INSERT INTO burgers (burger_name, date) VALUES ('veggie burger', NOW());
-INSERT INTO burgers (burger_name, date) VALUES ('jalepeno western burger', NOW());
+INSERT INTO burgerSeq (burger_name) VALUES ('bacon cheesburger');
+INSERT INTO burgerSeq (burger_name) VALUES ('veggie burger');
+INSERT INTO burgerSeq (burger_name) VALUES ('jalepeno western burger');
 
